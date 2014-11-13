@@ -248,14 +248,24 @@ _.every = function(collection, iterator) {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-
-
-
+    for(var i = 0; i < arguments.length; i++){
+      for(var item in arguments[i]){
+        obj[item] = arguments[i][item];
+      }
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    for(var i = 0; i < arguments.length; i++){
+      for(var item in arguments[i]){
+        if(!(item in obj))
+        obj[item] = arguments[i][item];
+      }
+    }
+    return obj;
   };
 
 
