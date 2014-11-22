@@ -218,13 +218,14 @@ _.every = function(collection, iterator) {
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
     return _.reduce(collection, function(accumulator, item){
-        if(collection.length == 0) return false;
-       iterator = iterator || function(){return item;};
+      if(collection.length == 0) return false;
+       iterator = iterator || _.identity;
         if(accumulator == true) {
           return true;
         }
         return Boolean(iterator(item));
-    }, false);    
+    }, false);   
+
   };
 
 
@@ -347,11 +348,9 @@ _.every = function(collection, iterator) {
       var max = thisArray.length;
       var min = 0;
       var index = Math.round(Math.random() * (max -  min) + min);
-      console.log(index);
       if(thisArray[index] != undefined) result.push(thisArray[index]);
       thisArray.splice(index, 1);
     }
-    console.log(result);
     return result;
   };
 
