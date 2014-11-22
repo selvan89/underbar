@@ -203,7 +203,7 @@ var _ = {};
 
   // Determine whether all of the elements match a truth test.
 _.every = function(collection, iterator) {
-  if(collection.length === 0) return true;
+  if(collection.length === []) return true;
   return _.reduce(collection, function(accumulator, item) {
     iterator = iterator || function() {return item;};
     if(accumulator == false){
@@ -219,9 +219,8 @@ _.every = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
     return _.reduce(collection, function(accumulator, item){
         if(collection.length == 0) return false;
-        iterator = iterator || function(){return item;};
+       iterator = iterator || function(){return item;};
         if(accumulator == true) {
-          console.log(accumulator);
           return true;
         }
         return Boolean(iterator(item));
@@ -306,7 +305,11 @@ _.every = function(collection, iterator) {
   // _.memoize should return a function that when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function(func) {
+  _.memoize = function(func){
+    var memory = {};
+      return function(item){
+        return (item in memory) ? memory[item] : (memory[item] = func.apply(this, arguments));
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -316,6 +319,13 @@ _.every = function(collection, iterator) {
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var thisArray = [];
+    for(var i = 0; i < arguments.length; i++){
+      thisArray[i] = thisArray.push(arguments[i]);
+    }
+    return setTimeout(function(){
+      return func.apply(this, thisArray);
+    }, wait)
   };
 
 
@@ -330,6 +340,19 @@ _.every = function(collection, iterator) {
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var thisArray = array.slice();
+    var result = [];
+    console.log(thisArray);
+    while(thisArray.length > 0){
+      var max = thisArray.length;
+      var min = 0;
+      var index = Math.round(Math.random() * (max -  min) + min);
+      console.log(index);
+      if(thisArray[index] != undefined) result.push(thisArray[index]);
+      thisArray.splice(index, 1);
+    }
+    console.log(result);
+    return result;
   };
 
 
